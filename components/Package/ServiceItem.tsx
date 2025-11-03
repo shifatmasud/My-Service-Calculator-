@@ -161,7 +161,7 @@ const ServiceItem: React.FC<ServiceItemProps> = ({ item, selectedItems, onToggle
   };
 
   return (
-    <motion.div style={styles.wrapper} layout="position">
+    <motion.div style={styles.wrapper} layout transition={{ type: 'spring', stiffness: 350, damping: 35 }}>
         <motion.div
             style={styles.mainCard}
             onClick={() => onToggleItem(item)}
@@ -194,45 +194,47 @@ const ServiceItem: React.FC<ServiceItemProps> = ({ item, selectedItems, onToggle
             <div style={styles.price}><span>{formatPrice(item.price_bdt)}</span></div>
         </motion.div>
 
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
         {hasAddOns && isSelected && (
             <motion.div
                 key="addons"
-                style={styles.addOnsContainer}
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: theme.motion.duration.standard / 1000, ease: theme.motion.easing }}
+                transition={{ type: 'spring', stiffness: 400, damping: 40 }}
+                style={{ overflow: 'hidden' }}
             >
-                {item.add_ons!.map(addOn => {
-                    const addOnKey = `${item.name}-${addOn.name}`;
-                    const isAddOnSelected = selectedItems.has(addOnKey);
-                    return (
-                        <motion.div 
-                            key={addOn.name} 
-                            style={styles.addOnItem}
-                            onClick={() => isSelected && onToggleItem(addOn, item)}
-                            whileHover={{ backgroundColor: isSelected ? theme.colors.base.surface[1] + '80' : 'transparent' }}
-                        >
-                            <div style={styles.addOnLeftContainer}>
-                                <div style={{...styles.addOnCheckbox, borderColor: isAddOnSelected ? theme.colors.primary.surface[1] : theme.colors.base.content[3] }}>
-                                    <AnimatePresence>
-                                    {isAddOnSelected && 
-                                        <motion.div 
-                                            style={styles.addOnCheckIcon} 
-                                            initial={{ scale: 0 }}
-                                            animate={{ scale: 1 }}
-                                            exit={{ scale: 0 }}
-                                        />
-                                    }
-                                    </AnimatePresence>
+                <div style={styles.addOnsContainer}>
+                    {item.add_ons!.map(addOn => {
+                        const addOnKey = `${item.name}-${addOn.name}`;
+                        const isAddOnSelected = selectedItems.has(addOnKey);
+                        return (
+                            <motion.div 
+                                key={addOn.name} 
+                                style={styles.addOnItem}
+                                onClick={() => isSelected && onToggleItem(addOn, item)}
+                                whileHover={{ backgroundColor: isSelected ? theme.colors.base.surface[1] + '80' : 'transparent' }}
+                            >
+                                <div style={styles.addOnLeftContainer}>
+                                    <div style={{...styles.addOnCheckbox, borderColor: isAddOnSelected ? theme.colors.primary.surface[1] : theme.colors.base.content[3] }}>
+                                        <AnimatePresence>
+                                        {isAddOnSelected && 
+                                            <motion.div 
+                                                style={styles.addOnCheckIcon} 
+                                                initial={{ scale: 0 }}
+                                                animate={{ scale: 1 }}
+                                                exit={{ scale: 0 }}
+                                            />
+                                        }
+                                        </AnimatePresence>
+                                    </div>
+                                    <span style={styles.addOnName}>{addOn.name}</span>
                                 </div>
-                                <span style={styles.addOnName}>{addOn.name}</span>
-                            </div>
-                            <span style={styles.addOnPrice}>{formatPrice(addOn.price_bdt)}</span>
-                        </motion.div>
-                    )
-                })}
+                                <span style={styles.addOnPrice}>{formatPrice(addOn.price_bdt)}</span>
+                            </motion.div>
+                        )
+                    })}
+                </div>
             </motion.div>
         )}
         </AnimatePresence>

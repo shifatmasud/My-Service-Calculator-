@@ -1,4 +1,3 @@
-
 import { ServiceData } from './types';
 
 export const serviceData: ServiceData = {
@@ -7,7 +6,7 @@ export const serviceData: ServiceData = {
       "name": "Static Page",
       "price_bdt": 3900,
       "notes": "Figma design + Framer build",
-      "icon": "DesktopTower",
+      "icon": "Browser",
       "time_hours": 4,
       "allow_quantity": true
     },
