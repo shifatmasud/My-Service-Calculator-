@@ -1,0 +1,5 @@
+{
+  "name": "Framer Pricing Calculator",
+  "description": "A custom pricing calculator to estimate the final time and price for web development services, including static pages, dynamic pages with CMS, custom React components, and various add-ons.",
+  "requestFramePermissions": []
+}
